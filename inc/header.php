@@ -82,7 +82,26 @@ header("Cache-Control: max-age=2592000");
             </a>
           </div>
         </div>
-        <div class="login"><a href="login.php">Login</a></div>
+
+        <?php
+        if (isset($_GET["customer_ID"])) {
+          $deleteAllCart = $ct->deleteAllCart();
+          Session::destroy();
+        }
+
+        ?>
+        <div class="login">
+
+          <?php
+          $login_check = Session::get('customer_login');
+          if ($login_check == false) {
+            echo '<a href="login.php">Đăng nhập</a></div>';
+          } else {
+            echo '<a href="?customer_ID=' . Session::get("customer_ID") . ' ">Đăng xuất</a></div>';
+          }
+          ?>
+
+        </div>
         <div class="clear"></div>
       </div>
       <div class="clear"></div>
@@ -92,7 +111,24 @@ header("Cache-Control: max-age=2592000");
         <li><a href="index.php">Home</a></li>
         <li><a href="products.php">Products</a> </li>
         <li><a href="topbrands.php">Top Brands</a></li>
-        <li><a href="cart.php">Cart</a></li>
+
+        <?php
+        $check_cart = $ct->check_cart();
+        if ($check_cart) {
+          echo ' <li><a href="cart.php">Cart</a></li>';
+        } else {
+          echo "";
+        }
+        ?>
+
+        <?php
+        $login_check = Session::get('customer_login');
+        if ($login_check) {
+          echo "<li><a href='profile.php'>Info User</a></li>";
+        } else {
+          echo "";
+        }
+        ?>
         <li><a href="contact.php">Contact</a> </li>
         <div class="clear"></div>
       </ul>

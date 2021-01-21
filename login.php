@@ -3,25 +3,43 @@ include "inc/header.php";
 ?>
 
 <?php
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
-	$insertCustomer = $cs->insertCustomer($_POST);
+$login_check = Session::get('customer_login');
+if ($login_check) {
+	header('Location:order.php');
 }
 ?>
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['signup'])) {
+	$insertCustomer = $cs->insertCustomer($_POST);
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
+	$loginCustomer = $cs->loginCustomer($_POST);
+}
+?>
+
 
 <div class="main">
 	<div class="content">
 		<div class="login_panel">
 			<h3>Existing Customers</h3>
 			<p>Sign in with the form below.</p>
-			<form action="hello" method="get" id="member">
-				<input name="Domain" type="text" value="Username" class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}">
-				<input name="Domain" type="password" value="Password" class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+
+			<?php
+			if (isset($loginCustomer)) {
+				echo $loginCustomer;
+			}
+			?>
+			<form action="" method="POST" id="member">
+				<input name="email" type="text" value="" class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+				<input name="password" type="password" value="" class="field" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}">
+				<div class="buttons">
+					<div><input class="grey" type="submit" name="login">Sign In</input></div>
+				</div>
 			</form>
 			<p class="note">If you forgot your passoword just enter your email and click <a href="#">here</a></p>
-			<div class="buttons">
-				<div><button class="grey">Sign In</button></div>
-			</div>
 		</div>
 		<div class="register_account">
 			<h3>Register New Account</h3>
@@ -71,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
 				</table>
 				<div class="search">
 					<div>
-						<input type="submit" name="login" class"grey" value="Đăng nhập" style=" background: #ffffff;" />
+						<input type="submit" name="signup" class"grey" value="Dang Ky" style=" background: #ffffff;" />
 					</div>
 				</div>
 				<p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
