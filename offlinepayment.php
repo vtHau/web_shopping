@@ -2,19 +2,20 @@
 include_once 'inc/header.php';
 ?>
 
-<!-- <?php
-      if (!isset($_GET["productID"]) || $_GET["productID"] == NULL) {
-        echo "<script> window.location = '404.php' </script>";
-      } else {
-        $productID = $_GET["productID"];
-      }
+<?php
+if (isset($_GET["orderID"]) || $_GET["productID"] == "order") {
+  $customer_ID = Session::get("customer_ID");
+  $insertOrder = $ct->insertOrder($customer_ID);
+  $delCart = $ct->deleteAllCart();
+  header("Location: success.php");
+}
 
-      if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-        $productQuantity = $_POST["productQuantity"];
-        $addCart = $ct->addToCart($productID, $productQuantity);
-      }
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
+  $productQuantity = $_POST["productQuantity"];
+  $addCart = $ct->addToCart($productID, $productQuantity);
+}
 
-      ?> -->
+?>
 
 <style>
   .box-left {
@@ -38,6 +39,7 @@ include_once 'inc/header.php';
     font-size: 25px;
     color: #fff;
     margin: 15px;
+    margin-top: 70px;
     cursor: pointer;
   }
 </style>
@@ -172,10 +174,9 @@ include_once 'inc/header.php';
           </div>
         </div>
       </div>
-      <center> <input type="submit" class="submit-order" value="Order Now" name="order" /></center>
+      <center> <a href="?orderID=order" class="submit-order">Order Now</a></center>
     </div>
   </div>
 </form>
-
 
 <?php include "inc/footer.php" ?>

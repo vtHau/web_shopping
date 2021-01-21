@@ -100,4 +100,40 @@ class cart
     $result = $this->db->delete($query);
     return $result;
   }
+
+  public function insertOrder($customer_ID)
+  {
+    $SID = session_id();
+    $query = "SELECT * FROM tbl_cart WHERE SID = '$SID'";
+    $getProduct = $this->db->select($query);
+
+    if ($getProduct) {
+      while ($result = $getProduct->fetch_assoc()) {
+        $productID = $result["productID"];
+        $productName = $result["productName"];
+        $quantity = $result["productQuantity"];
+        $price = $result["productPrice"] + $quantity;
+        $image = $result["productImage"];
+        $customer_ID = $customer_ID;
+
+        $query_order = "INSERT INTO tbl_order(productID, productName, customer_ID, quantity, price, image)
+        VALUES('$productID', '$productName' , '$customer_ID' , '$quantity', '$price', '$image') ";
+        $insert_order = $this->db->insert($query_order);
+
+        // if ($insert_order) {
+        //   header("Location: cart.php");
+        // } else {
+        //   header("Location: 404.php");
+        // }
+      }
+    }
+  }
+
+  public function getAmountPrice($customer_ID)
+  {
+    $SID = session_id();
+    $query = "SELECT price FROM tbl_order WHERE customer_id = '$customer_ID' AND date_order = now()";
+    $getPrice = $this->db->select($query);
+    return $getPrice;
+  }
 }
