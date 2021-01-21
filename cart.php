@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 
 <?php
 if (!isset($_GET["id"])) {
-	 echo "<meta http-equiv='refresh' content='0;URL=?id=live'>";
+	echo "<meta http-equiv='refresh' content='0;URL=?id=live'>";
 }
 ?>
 
@@ -110,15 +110,13 @@ if (!isset($_GET["id"])) {
 					echo "<span>Khong co thong tin de hien thi</span>";
 				} ?>
 
-
-
 			</div>
 			<div class="shopping">
 				<div class="shopleft">
 					<a href="index.php"> <img src="images/shop.png" alt="" /></a>
 				</div>
 				<div class="shopright">
-					<a href="login.php"> <img src="images/check.png" alt="" /></a>
+					<a href="payment.php"> <img src="images/check.png" alt="" /></a>
 				</div>
 			</div>
 		</div>
