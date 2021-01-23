@@ -11,6 +11,15 @@ if ($login_check == false) {
 ?>
 
 <?php
+if (isset($_GET['confirmid'])) {
+  $id = $_GET['confirmid'];
+  $time = $_GET['time'];
+  $price = $_GET['price'];
+  $shifted_confirm = $ct->shifted_confirm($id, $time, $price);
+}
+?>
+
+<?php
 if (!isset($_GET["id"])) {
   echo "<meta http-equiv='refresh' content='0;URL=?id=live'>";
 }
@@ -48,28 +57,54 @@ if (!isset($_GET["id"])) {
                 <td><img height="200px" src="admin/uploads/<?php echo $result["image"] ?>" /></td>
                 <td><?php echo $result["price"] . " VND" ?></td>
                 <td><?php echo $result["quantity"] ?></td>
+                <td><?php echo $fm->formatDate($result['date_order'])  ?></td>
                 <td>
                   <?php
                   if ($result["status"] == 0) {
                     echo "Pending";
+                  } elseif ($result["status"] == 1) {
+                    echo "Đã nhận hàng";
                   } else {
-                    echo "Progress";
+                    echo "Complete";
                   }
 
                   ?>
                 </td>
-                <td><?php echo $fm->formatDate($result["date_order"])  ?></td>
-                <td>
-                  <?php
-                  if ($result["status"] == 0) {
-                    echo "N/A";
-                  } else {
-                  ?>
+                <?php
+                if ($result['status'] == '0') {
+                  echo "Đang chờ xử lý";
+                } elseif ($result['status'] == 1) {
+                ?>
+                  <span>Đã gửi hàng</span>
 
-                <td><a href="?cartID=<?php echo $result["cartID"] ?>">X</a></td>
+                <?php
 
-              <?php } ?>
-              </td>
+                } elseif ($result['status'] == 2) {
+                  echo 'Đã nhận';
+                }
+                ?>
+
+                </td>
+                <?php
+                if ($result['status'] == '0') {
+                ?>
+
+                  <td><?php echo 'N/A'; ?></td>
+
+                <?php
+                } elseif ($result['status'] == 1) {
+                ?>
+                  <td>
+                    <a href="?confirmid=<?php echo $customer_ID ?>&price=<?php echo $result['price'] ?>&time=<?php echo $result['date_order'] ?>">Xác nhận</a>
+                  </td>
+                <?php
+                } else {
+                ?>
+
+                  <td><?php echo 'Đã nhận'; ?></td>
+                <?php
+                }
+                ?>
               </tr>
           <?php
             }

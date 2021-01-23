@@ -38,6 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 								<p>Category: <span><?php echo $result["catName"] ?></span></p>
 								<p>Brand:<span><?php echo $result["brandName"] ?></span></p>
 							</div>
+
+
 							<div class="add-cart">
 								<form action="" method="post">
 									<input type="number" class="buyfield" name="productQuantity" value="1" min="1" />
@@ -50,6 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 								}
 								?>
 							</div>
+
+							<div class="add-cart">
+								<a class="buysubmit" href="?wlist=<?php echo $result["productID"] ?>">Save to Withlist</a>
+								<a class="buysubmit" href="?wlist=<?php echo $result["productID"] ?>">Compare Product</a>
+							</div>
+
+
 						</div>
 						<div class="product-desc">
 							<h2>Product Details</h2>

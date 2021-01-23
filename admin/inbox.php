@@ -5,12 +5,53 @@
 $filepath = realpath(dirname(__FILE__));
 include_once($filepath . '/../classes/cart.php');
 include_once($filepath . '/../helpers/format.php');
+
+?>
+
+<?php
+if (isset($_GET["customerID"]) && $_GET["customerID"] != NULL) {
+	$ID = $_GET["customerID"];
+}
+$ct = new cart();
+$fm = new Format();
+?>
+
+<?php
+$ct = new cart();
+if (isset($_GET['shiftid'])) {
+	$id = $_GET['shiftid'];
+	$proid = $_GET['proid'];
+	$qty = $_GET['qty'];
+	$time = $_GET['time'];
+	$price = $_GET['price'];
+	$shifted = $ct->shifted($id, $proid, $qty, $time, $price);
+}
+
+if (isset($_GET['delid'])) {
+	$id = $_GET['delid'];
+
+	$time = $_GET['time'];
+	$price = $_GET['price'];
+	$del_shifted = $ct->delShifted($id, $time, $price);
+}
+
 ?>
 
 <div class="grid_10">
 	<div class="box round first grid">
 		<h2>Inbox</h2>
 		<div class="block">
+
+			<?php
+			if (isset($shifted)) {
+				echo $shifted;
+			}
+			?>
+			<?php
+			if (isset($del_shifted)) {
+				echo $del_shifted;
+			}
+			?>
 			<table class="data display datatable" id="example">
 				<thead>
 					<tr>
@@ -27,8 +68,7 @@ include_once($filepath . '/../helpers/format.php');
 				<tbody>
 
 					<?php
-					$ct = new cart();
-					$fm = new Format();
+
 					$getInboxCart = $ct->getInboxCart();
 					if ($getInboxCart) {
 						$i = 0;
@@ -45,15 +85,26 @@ include_once($filepath . '/../helpers/format.php');
 								<td><a href="customer.php?customerID=<?php echo $result["customer_ID"] ?>">View Customer</a></td>
 								<td>
 									<?php
-									if ($result["status"] == 0) {
+									if ($result['status'] == 0) {
 									?>
-										<a href="?shiftID=<?php echo $result["ID"] ?>&price=<?php echo $result["price"] ?>&time=<?php echo $result["date_order"] ?>">Pending</a>
-									<?php
-									} else {
-									?>
-										<a href="?shiftID=<?php echo $result["ID"] ?>&price=<?php echo $result["price"] ?>&time=<?php echo $result["data_order"] ?>">Remove</a>
 
-									<?php } ?>
+										<a href="?shiftid=<?php echo $result['ID'] ?>&qty=<?php echo $result['quantity'] ?>&proid=<?php echo $result['productID'] ?>&price=<?php echo $result['price']; ?>&time=<?php echo $result['date_order'] ?>">Đang chờ xử lý
+										<?php
+									} elseif ($result['status'] == 1) {
+										?>
+
+											<?php
+											echo 'Đang giao hàng...';
+											?>
+
+										<?php
+									} elseif ($result['status'] == 2) {
+
+										?>
+											<a href="?delid=<?php echo $result['ID'] ?>&price=<?php echo $result['price']; ?>&time=<?php echo $result['date_order'] ?>">Xóa đơn</a>
+										<?php
+									}
+										?>
 								</td>
 							</tr>
 					<?php

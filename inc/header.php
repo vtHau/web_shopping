@@ -139,6 +139,7 @@ header("Cache-Control: max-age=2592000");
           echo "";
         }
         ?>
+        <li><a href="compare.php">Compare</a> </li>
         <li><a href="contact.php">Contact</a> </li>
         <div class="clear"></div>
       </ul>
