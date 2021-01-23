@@ -132,8 +132,29 @@ class cart
   public function getAmountPrice($customer_ID)
   {
     $SID = session_id();
-    $query = "SELECT price FROM tbl_order WHERE customer_id = '$customer_ID' AND date_order = now()";
+    $query = "SELECT price FROM tbl_order WHERE customer_ID = '$customer_ID'";
     $getPrice = $this->db->select($query);
     return $getPrice;
+  }
+
+  public function getCartOrdered($customer_ID)
+  {
+    $query = "SELECT * FROM tbl_order WHERE customer_ID = '$customer_ID'";
+    $result = $this->db->select($query);
+    return $result;
+  }
+
+  public function check_order($customer_ID)
+  {
+    $query = "SELECT * FROM tbl_order WHERE customer_ID = '$customer_ID'";
+    $result = $this->db->select($query);
+    return $result;
+  }
+
+  public function getInboxCart()
+  {
+    $query = "SELECT * FROM tbl_order ";
+    $result = $this->db->select($query);
+    return $result;
   }
 }

@@ -122,6 +122,16 @@ header("Cache-Control: max-age=2592000");
         ?>
 
         <?php
+        $customer_ID = Session::get("customer_ID");
+        $check_order = $ct->check_order($customer_ID);
+        if ($check_order) {
+          echo ' <li><a href="orderdetails.php">Ordered</a></li>';
+        } else {
+          echo "";
+        }
+        ?>
+
+        <?php
         $login_check = Session::get('customer_login');
         if ($login_check) {
           echo "<li><a href='profile.php'>Info User</a></li>";
