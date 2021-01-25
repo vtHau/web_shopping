@@ -125,12 +125,6 @@ class cart
         $query_order = "INSERT INTO tbl_order(productID, productName, customer_ID, quantity, price, image)
         VALUES('$productID', '$productName' , '$customer_ID' , '$quantity', '$price', '$image') ";
         $insert_order = $this->db->insert($query_order);
-
-        // if ($insert_order) {
-        //   header("Location: cart.php");
-        // } else {
-        //   header("Location: 404.php");
-        // }
       }
     }
   }
@@ -239,7 +233,6 @@ class cart
 
   public function insertCompare($productID, $customer_ID)
   {
-    echo "<script>console.log('$productID')</script>";
     $productID = mysqli_real_escape_string($this->db->link, $productID);
     $customer_ID = mysqli_real_escape_string($this->db->link, $customer_ID);
 
@@ -271,10 +264,64 @@ class cart
     }
   }
 
+  public function insertWishlist($productID, $customer_ID)
+  {
+    $productID = mysqli_real_escape_string($this->db->link, $productID);
+    $customer_ID = mysqli_real_escape_string($this->db->link, $customer_ID);
+
+    $query = "SELECT * FROM tbl_product WHERE productID = '$productID'";
+    $result = $this->db->select($query)->fetch_assoc();
+
+    $productName = $result["productName"];
+    $productPrice = $result["productPrice"];
+    $productImage = $result["productImage"];
+
+    $checkCart = "SELECT * FROM tbl_wishlist WHERE product_ID = '$productID' AND customer_ID = '$customer_ID'";
+    $result = $this->db->select($checkCart);
+
+    if ($result) {
+      $result = "San pham da ton tai";
+      return $result;
+    } else {
+      $query_insert = "INSERT INTO tbl_wishlist(customer_ID, product_ID, productName, price, image)
+      VALUES('$customer_ID', '$productID',  '$productName', '$productPrice', '$productImage') ";
+      $result_insert = $this->db->insert($query_insert);
+
+      if ($result_insert) {
+        $msg = "<span class='success'>Add Compare Success</span> ";
+        return $msg;
+      } else {
+        $msg = "<span class='success'>Add Compare Not Success</span> ";
+        return $msg;
+      }
+    }
+  }
+
   public function productCompare($customer_ID)
   {
     $query = "SELECT * FROM tbl_compare WHERE  customer_ID = '$customer_ID' ORDER BY ID DESC";
     $result = $this->db->select($query);
     return $result;
+  }
+
+  public function productWishlist($customer_ID)
+  {
+    $query = "SELECT * FROM tbl_wishlist WHERE  customer_ID = '$customer_ID' ORDER BY ID DESC";
+    $result = $this->db->select($query);
+    return $result;
+  }
+
+  public function deleteWishlist($productID, $customer_ID)
+  {
+    $query = "DELETE FROM tbl_wishlist WHERE  product_ID = '$productID' AND customer_ID = '$customer_ID'";
+    $result = $this->db->delete($query);
+
+    if ($result) {
+      $msg = "<span class='success'>Xoa san pham thanh cong</span> ";
+      return $msg;
+    } else {
+      $msg = "<span class='success'>Xoa san pham khong thanh cong</span> ";
+      return $msg;
+    }
   }
 }
