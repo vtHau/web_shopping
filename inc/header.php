@@ -85,7 +85,9 @@ header("Cache-Control: max-age=2592000");
 
         <?php
         if (isset($_GET["customer_ID"])) {
+          $customer_ID = $_GET["customer_ID"];
           $deleteAllCart = $ct->deleteAllCart();
+          $delAllCompare = $ct->deleteAllCompare($customer_ID);
           Session::destroy();
         }
 
@@ -139,7 +141,12 @@ header("Cache-Control: max-age=2592000");
           echo "";
         }
         ?>
-        <li><a href="compare.php">Compare</a> </li>
+        <?php
+        $login_check = Session::get('customer_login');
+        if ($login_check) {
+          echo "<li><a href='compare.php'>Compare</a></li>";
+        }
+        ?>
         <li><a href="contact.php">Contact</a> </li>
         <div class="clear"></div>
       </ul>

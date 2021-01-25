@@ -29,87 +29,42 @@ if (!isset($_GET["id"])) {
 	<div class="content">
 		<div class="cartoption">
 			<div class="cartpage">
-
 				<?php
 				if (isset($deleteCart)) {
 					echo $deleteCart;
 				}
 				?>
-				<h2>Compare Product</h2>
+
+				<h2 width="100%">Product Compare</h2>
 				<table class="tblone">
 					<tr>
+						<th width="10%">ID Compare</th>
 						<th width="20%">Product Name</th>
-						<th width="10%">Image</th>
-						<th width="15%">Price</th>
-						<th width="25%">Quantity</th>
-						<th width="20%">Total Price</th>
-						<th width="10%">Action</th>
+						<th width="20%">Image</th>
+						<th width="25%">Price</th>
+						<th width="15%">Action</th>
 					</tr>
 
 					<?php
-
-					$productCart = $ct->getProductCart();
-
-					if ($productCart) {
-						$total = 0;
-						$quantity = 0;
-						while ($result = $productCart->fetch_assoc()) {
-							$quantity += $result["productQuantity"];
-							$total = $total + (($result["productQuantity"]) * ($result["productPrice"]));
+					$customer_ID = Session::get("customer_ID");
+					$productCompare = $ct->productCompare($customer_ID);
+					if ($productCompare) {
+						$i = 0;
+						while ($result = $productCompare->fetch_assoc()) {
+							$i++;
 					?>
 							<tr>
+								<td><?php echo $i; ?></td>
 								<td><?php echo $result["productName"] ?></td>
-								<td><img height="80px" src="admin/uploads/<?php echo $result["productImage"] ?>" /></td>
-								<td><?php echo $result["productPrice"] ?></td>
-								<td>
-									<form action="" method="post">
-										<input type="hidden" name="cartID" value="<?php echo $result["cartID"] ?>" />
-										<input type="number" min="0" name="productQuantity" value="<?php echo $result["productQuantity"] ?>" />
-										<input type="submit" name="submit" value="Update" />
-									</form>
-								</td>
-								<td><?php echo ($result["productPrice"]  * $result["productQuantity"]) ?></td>
-								<td><a href="?cartID=<?php echo $result["cartID"] ?>">X</a></td>
+								<td><img height="80px" src="admin/uploads/<?php echo $result["image"] ?>" /></td>
+								<td><?php echo $result["price"] ?></td>
+								<td><a href="details.php?productID=<?php echo $result["productID"] ?>">View</a></td>
 							</tr>
 					<?php
 						}
 					}
 					?>
-
 				</table>
-				<?php
-				$checkCart = $ct->check_cart();
-				if ($check_cart) {
-				?>
-					<table style="float:right;text-align:left;" width="40%">
-						<tr>
-							<th>Sub Total : </th>
-							<td><?php if (isset($total)) echo $total; ?></td>
-						</tr>
-						<tr>
-							<th>VAT : </th>
-							<td>TK. 10%</td>
-						</tr>
-						<tr>
-							<th>Grand Total :</th>
-							<td> TK.
-								<?php
-								if (isset($total)) {
-									$VAT = $total * 0.1;
-									$sum = $total + $VAT;
-									echo $sum;
-									Session::set('sum', $sum);
-									Session::set('quantity', $quantity);
-								}
-								?>
-							</td>
-						</tr>
-					</table>
-				<?php
-				} else {
-					echo "<span>Khong co thong tin de hien thi</span>";
-				} ?>
-
 			</div>
 			<div class="shopping">
 				<div class="shopleft">

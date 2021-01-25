@@ -9,6 +9,13 @@ if (!isset($_GET["productID"]) || $_GET["productID"] == NULL) {
 	$productID = $_GET["productID"];
 }
 
+$customer_ID = Session::get("customer_ID");
+
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['compare'])) {
+	$productID = $_POST["productID"];
+	$insertCompare = $ct->insertCompare($productID, $customer_ID);
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 	$productQuantity = $_POST["productQuantity"];
 	$addCart = $ct->addToCart($productID, $productQuantity);
@@ -54,8 +61,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 							</div>
 
 							<div class="add-cart">
-								<a class="buysubmit" href="?wlist=<?php echo $result["productID"] ?>">Save to Withlist</a>
-								<a class="buysubmit" href="?wlist=<?php echo $result["productID"] ?>">Compare Product</a>
+								<form action="" method="POST">
+									<input type="hidden" name="productID" value="<?php echo $result['productID'] ?>" />
+									<?php
+									$login_check = Session::get('customer_login');
+									if ($login_check) {
+										echo '<input type="submit" class="buysubmit" name="compare" value="So sánh sản phẩm" />';
+										echo '<input type="submit" class="buysubmit" name="wishlist" value="Sản phẩm yêu thích" />';
+									}
+									?>
+
+									<?php
+									if (isset($insertCompare)) {
+										echo $insertCompare;
+									}
+									?>
+								</form>
 							</div>
 
 
@@ -82,6 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 							<li><a href="productbycat.php?catID=<?php echo $result["catID"] ?>"><?php echo $result["catName"] ?></a></li>
 					<?php
 						}
+						
 					}
 					?>
 				</ul>
