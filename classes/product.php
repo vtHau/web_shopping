@@ -206,4 +206,83 @@ class product
     $result = $this->db->select($query);
     return $result;
   }
+
+  public function insertSlider($data, $files)
+  {
+    $sliderName = mysqli_real_escape_string($this->db->link, $data["sliderName"]);
+    $type = mysqli_real_escape_string($this->db->link, $data["type"]);
+
+    // kiểm tra hình ảnh và lấy hình ảnh cho vào folder upload
+    $permited = ['jpg', 'jpeg', 'png', 'gif'];
+    $file_name = $files['image']['name'];
+    $file_size = $files['image']['size'];
+    $file_temp = $files['image']['tmp_name'];
+
+    $div = explode('.', $file_name);
+    $file_ext = strtolower(end($div));
+    $unique_image = substr(md5(time()), 0, 10) . '.' . $file_ext;
+    $uploaded_image = "uploads/" . $unique_image;
+
+    if ($sliderName == '' || $type == ""  || $file_name == "") {
+      $alert = "<span class='error'>Fiedls must be not empty</span>";
+      return $alert;
+    } elseif (!empty($file_name)) {
+      //Nếu người dùng chọn ảnh
+      if ($file_size > 2048000) {
+        $alert = "<span class='success'>Image Size should be less then 2MB!</span>";
+        return $alert;
+      } elseif (in_array($file_ext, $permited) === false) {
+        // echo "<span class='error'>You can upload only:-".implode(', ', $permited)."</span>";	
+        $alert = "<span class='success'>You can upload only:-" . implode(', ', $permited) . "</span>";
+        return $alert;
+      }
+
+      move_uploaded_file($file_temp, $uploaded_image);
+      $query = "INSERT INTO tbl_slider(sliderName , sliderImage , sliderType ) VALUES('$sliderName','$unique_image','$type') ";
+      $result = $this->db->insert($query);
+
+      if ($result) {
+        $alert = "<span class='success'>Thêm sản slider thành công</span>";
+        return $alert;
+      } else {
+        $alert = "<span class='error'>Thêm slider không thành công</span>";
+        return $alert;
+      }
+    }
+  }
+
+  public function getSlider()
+  {
+    $query = "SELECT * FROM tbl_slider WHERE sliderType = 1 ORDER BY sliderID DESC";
+    $result = $this->db->select($query);
+    return $result;
+  }
+
+  public function getSliderAdmin()
+  {
+    $query = "SELECT * FROM tbl_slider ORDER BY sliderID DESC";
+    $result = $this->db->select($query);
+    return $result;
+  }
+
+  public function updateTypeSlider($ID, $type)
+  {
+    $type = mysqli_real_escape_string($this->db->link, $type);
+    $query = "UPDATE tbl_slider SET sliderType = '$type' WHERE sliderID = '$ID'";
+    $result = $this->db->update($query);
+  }
+
+  public function deleteSlider($ID)
+  {
+    $query = "DELETE FROM tbl_slider WHERE sliderID = '$ID'";
+    $result = $this->db->delete($query);
+  }
+
+  public function searchProduct($keyword)
+  {
+    $keyword = $this->fm->validation($keyword);
+    $query = "SELECT * FROM tbl_product WHERE productName LIKE '%$keyword%'";
+    $result = $this->db->select($query);
+    return $result;
+  }
 }

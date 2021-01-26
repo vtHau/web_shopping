@@ -63,22 +63,24 @@ header("Cache-Control: max-age=2592000");
       </div>
       <div class="header_top_right">
         <div class="search_box">
-          <form>
-            <input type="text" value="Search for Products" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input type="submit" value="SEARCH">
+          <form action="search.php" method="POST">
+            <input type="text" name="keyword" placeholder="Tim kiem san pham" />
+            <input type="submit" value="Tim Kiem" name="search" />
           </form>
         </div>
         <div class="shopping_cart">
           <div class="cart">
             <a href="#" title="View my shopping cart" rel="nofollow">
               <span class="cart_title">Cart</span>
-              <span class="no_product"><?php
-                                        $check_cart = $ct->check_cart();
-                                        if ($check_cart) {
-                                          echo Session::get("sum") . " SL: " . Session::get("quantity");
-                                        } else {
-                                          echo "Empty";
-                                        }
-                                        ?></span>
+              <span class="no_product">
+                <?php
+                $check_cart = $ct->check_cart();
+                if ($check_cart) {
+                  echo Session::get("sum") . " SL: " . Session::get("quantity");
+                } else {
+                  echo "Empty";
+                }
+                ?></span>
             </a>
           </div>
         </div>

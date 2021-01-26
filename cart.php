@@ -60,7 +60,7 @@ if (!isset($_GET["id"])) {
 							<tr>
 								<td><?php echo $result["productName"] ?></td>
 								<td><img height="80px" src="admin/uploads/<?php echo $result["productImage"] ?>" /></td>
-								<td><?php echo $result["productPrice"] ?></td>
+								<td><?php echo $fm->format_currency($result["productPrice"]) . " VND"  ?></td>
 								<td>
 									<form action="" method="post">
 										<input type="hidden" name="cartID" value="<?php echo $result["cartID"] ?>" />
@@ -68,7 +68,7 @@ if (!isset($_GET["id"])) {
 										<input type="submit" name="submit" value="Update" />
 									</form>
 								</td>
-								<td><?php echo ($result["productPrice"]  * $result["productQuantity"]) ?></td>
+								<td><?php echo $fm->format_currency(($result["productPrice"]  * $result["productQuantity"])) ?></td>
 								<td><a href="?cartID=<?php echo $result["cartID"] ?>">X</a></td>
 							</tr>
 					<?php
@@ -84,7 +84,7 @@ if (!isset($_GET["id"])) {
 					<table style="float:right;text-align:left;" width="40%">
 						<tr>
 							<th>Sub Total : </th>
-							<td><?php if (isset($total)) echo $total; ?></td>
+							<td><?php if (isset($total)) echo $fm->format_currency($total); ?></td>
 						</tr>
 						<tr>
 							<th>VAT : </th>
@@ -97,7 +97,7 @@ if (!isset($_GET["id"])) {
 								if (isset($total)) {
 									$VAT = $total * 0.1;
 									$sum = $total + $VAT;
-									echo $sum;
+									echo $fm->format_currency($sum);
 									Session::set('sum', $sum);
 									Session::set('quantity', $quantity);
 								}

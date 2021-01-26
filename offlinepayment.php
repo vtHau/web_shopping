@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
                     <tr>
                       <td><?php echo $i ?></td>
                       <td><?php echo $result["productName"] ?></td>
-                      <td><?php echo $result["productPrice"] ?>
+                      <td><?php echo $fm->format_currency($result["productPrice"]) ?>
                       <td><?php echo $result["productQuantity"] ?>
                       </td>
                       <td><?php echo ($result["productPrice"]  * $result["productQuantity"]) ?></td>
@@ -103,11 +103,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
                 <table style="float:right;text-align:left;" width="40%">
                   <tr>
                     <th>Sub Total : </th>
-                    <td><?php if (isset($total)) echo $total . " VND" ?></td>
+                    <td><?php if (isset($total)) echo $fm->format_currency($total)  ?></td>
                   </tr>
                   <tr>
                     <th>VAT : </th>
-                    <td>10% <?php echo " (" . $total * 0.1 . ") VND" ?></td>
+                    <td>10% <?php echo $fm->format_currency($total * 0.1) ?></td>
                   </tr>
                   <tr>
                     <th>Grand Total :</th>
@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
                       if (isset($total)) {
                         $VAT = $total * 0.1;
                         $sum = $total + $VAT;
-                        echo $sum . " VND";
+                        echo $fm->format_currency($sum);
                         Session::set('sum', $sum);
                         Session::set('quantity', $quantity);
                       }

@@ -22,7 +22,7 @@ include "inc/slider.php";
 						<a href="details.php"><img height="80px" src="admin/uploads/<?php echo $result["productImage"] ?>" /></a>
 						<h2><?php echo $result["productName"] ?> </h2>
 						<p><?php echo $fm->textShorten($result["productDesc"], 25) ?></p>
-						<p><span class="price">$<?php echo $result["productPrice"] ?></span></p>
+						<p><span class="price"><?php echo $fm->format_currency($result["productPrice"]) . " VND"  ?></span></p>
 						<div class="button"><span><a href="details.php?productID=<?php echo $result["productID"] ?>" class="details">Details</a></span></div>
 					</div>
 
@@ -48,7 +48,7 @@ include "inc/slider.php";
 						<a href="details.php"><img height="80px" src="admin/uploads/<?php echo $result["productImage"] ?>" /></a>
 						<h2><?php echo $result["productName"] ?> </h2>
 						<p><?php echo $fm->textShorten($result["productDesc"], 25) ?></p>
-						<p><span class="price">$<?php echo $result["productPrice"] ?></span></p>
+						<p><span class="price"><?php echo $fm->format_currency($result["productPrice"]) . " VND"  ?></span></p>
 						<div class="button"><span><a href="details.php?productID=<?php echo $result["productID"] ?>" class="details">Details</a></span></div>
 					</div>
 			<?php

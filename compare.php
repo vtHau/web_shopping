@@ -1,22 +1,5 @@
 <?php
 include_once "inc/header.php";
-// include_once "inc/slider.php";
-?>
-
-<?php
-// if (isset($_GET["cartID"])) {
-// 	$cartID = $_GET["cartID"];
-// 	$deleteCart = $ct->deleteCart($cartID);
-// }
-
-// if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-// 	$productQuantity = $_POST["productQuantity"];
-// 	$cartID = $_POST["cartID"];
-// 	$updateQuantityCart = $ct->updateQuantityCart($cartID, $productQuantity);
-// 	if ($productQuantity <= 0) {
-// 		$ct->deleteCart($cartID);
-// 	}
-// }
 ?>
 
 <?php
@@ -51,7 +34,7 @@ if (!isset($_GET["id"])) {
 								<td><?php echo $i; ?></td>
 								<td><?php echo $result["productName"] ?></td>
 								<td><img height="80px" src="admin/uploads/<?php echo $result["image"] ?>" /></td>
-								<td><?php echo $result["price"] ?></td>
+								<td><?php echo $fm->format_currency($result["price"])  ?></td>
 								<td><a href="details.php?productID=<?php echo $result["productID"] ?>">View</a></td>
 							</tr>
 					<?php

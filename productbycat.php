@@ -8,12 +8,6 @@ if (!isset($_GET["catID"]) || $_GET["catID"] == NULL) {
 } else {
 	$catID = $_GET["catID"];
 }
-
-// if ($_SERVER["REQUEST_METHOD"] === "POST") {
-// 	$catName =  $_POST["catName"];
-// 	$updateCat = $cat->update_category($catName, $catID);
-// }
-
 ?>
 
 <div class="main">
@@ -49,7 +43,7 @@ if (!isset($_GET["catID"]) || $_GET["catID"] == NULL) {
 						<a href="preview-3.php"> <img height="80px" src="admin/uploads/<?php echo $result["productImage"] ?>" /> </a>
 						<h2><?php echo $result["productName"] ?> </h2>
 						<p><?php echo $fm->textShorten($result["productDesc"], 25);  ?></p>
-						<p><span class="price">$<?php echo $result["productPrice"] ?></span></p>
+						<p><span class="price">$<?php echo $fm->format_currency($result["productPrice"]) ?></span></p>
 						<div class="button"><span><a href="details.php?productID=<?php echo $result["productID"] ?>" class="details">Details</a></span></div>
 					</div>
 

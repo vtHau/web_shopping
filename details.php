@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
 							<h2><?php echo $result["productName"] ?></h2>
 							<p><?php echo $fm->textShorten($result["productDesc"], 200) ?></p>
 							<div class="price">
-								<p>Price: <span>$<?php echo $result["productPrice"] . " VND" ?></span></p>
+								<p>Price: <span>$<?php echo $fm->format_currency($result["productPrice"]) ?></span></p>
 								<p>Category: <span><?php echo $result["catName"] ?></span></p>
 								<p>Brand:<span><?php echo $result["brandName"] ?></span></p>
 							</div>

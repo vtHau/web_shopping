@@ -17,6 +17,13 @@
           </ul>
         </li>
 
+        <li><a class="menuitem">Slider </a>
+          <ul class="submenu">
+            <li><a href="slideradd.php">Them slider</a> </li>
+            <li><a href="sliderlist.php">Danh sach slider</a> </li>
+          </ul>
+        </li>
+
         <li><a class="menuitem">Thuong hieu san pham</a>
           <ul class="submenu">
             <li><a href="brandadd.php">Them thuong hieu</a> </li>

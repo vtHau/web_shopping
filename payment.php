@@ -7,16 +7,6 @@ $login_check = Session::get('customer_login');
 if ($login_check == false) {
   header("Location: login.php");
 }
-// if (!isset($_GET["productID"]) || $_GET["productID"] == NULL) {
-//   echo "<script> window.location = '404.php' </script>";
-// } else {
-//   $productID = $_GET["productID"];
-// }
-
-// if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
-//   $productQuantity = $_POST["productQuantity"];
-//   $addCart = $ct->addToCart($productID, $productQuantity);
-// }
 ?>
 
 <div class="main">
