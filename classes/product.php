@@ -162,7 +162,22 @@ class product
 
   public function getProductNew()
   {
-    $query = "SELECT * FROM tbl_product ORDER BY productID DESC LIMIT 4 ";
+    if (!isset($_GET["page"])) {
+      $page = 1;
+    } else {
+      $page = $_GET["page"];
+    }
+
+    $pos = ($page - 1) * 4;
+
+    $query = "SELECT * FROM tbl_product ORDER BY productID DESC LIMIT $pos, 4 ";
+    $result = $this->db->select($query);
+    return $result;
+  }
+
+  public function getAllProdut()
+  {
+    $query = "SELECT * FROM tbl_product ORDER BY productID DESC ";
     $result = $this->db->select($query);
     return $result;
   }

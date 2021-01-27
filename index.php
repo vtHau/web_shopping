@@ -56,6 +56,19 @@ include "inc/slider.php";
 			}
 			?>
 		</div>
+		<div>
+			<?php
+			$productAll = $pd->getAllProdut();
+			$productCount = mysqli_num_rows($productAll);
+			$productButton = ceil($productCount / 4);
+			$i = 1;
+			echo '<p>Page: </p>';
+			for ($i = 1; $i <= $productButton; $i++) {
+				echo '<a style="margin: 0 50px;" href="index.php?page=' . $i . '">' . $i . '</a>';
+			}
+			?>
+
+		</div>
 	</div>
 </div>
 
