@@ -36,7 +36,6 @@ if (isset($_GET["delID"])) {
 						$i = 0;
 						while ($result = $show_cate->fetch_assoc()) {
 							$i++;
-
 					?>
 							<tr class="odd gradeX">
 								<td><?php echo $i; ?></td>
@@ -56,7 +55,6 @@ if (isset($_GET["delID"])) {
 <script type="text/javascript">
 	$(document).ready(function() {
 		setupLeftMenu();
-
 		$('.datatable').dataTable();
 		setSidebarHeight();
 	});
